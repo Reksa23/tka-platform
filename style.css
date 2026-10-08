@@ -1,0 +1,882 @@
+/* =========================================================
+
+   GERBANG PEMBAHASAN — Apple Pro / hitam pekat / spring
+
+   Tanpa gradasi. HTML tidak perlu diubah.
+
+   ========================================================= */
+
+:root{
+
+  color-scheme:dark;
+
+  --bg:#000;
+
+  --card:#111113;
+
+  --card-2:#1c1c1e;
+
+  --card-3:#2c2c2e;
+
+  --ink:#f5f5f7;
+
+  --text:#d2d2d7;
+
+  --mute:#86868b;
+
+  --line:rgba(255,255,255,.1);
+
+  --blue:#0a84ff;
+
+  --blue-hi:#2997ff;
+
+  --blue-soft:#8fcbff;
+
+  --green:#30d158;
+
+  --green-bg:rgba(48,209,88,.12);
+
+  --ease:cubic-bezier(.22,1,.36,1);
+
+  --spring:cubic-bezier(.34,1.56,.64,1);
+
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Inter","Segoe UI",Roboto,system-ui,sans-serif;
+
+}
+
+:root{
+  --spring:cubic-bezier(.22,1.08,.36,1);
+}
+
+/* ---------- Reset & dasar ---------- */
+
+*,*::before,*::after{box-sizing:border-box}
+
+html{
+
+  background:var(--bg);
+
+  scroll-behavior:smooth;
+
+  scroll-padding-top:6rem;
+
+  -webkit-text-size-adjust:100%;
+
+}
+
+html.vt{scroll-behavior:auto}
+
+body{
+
+  margin:0;
+
+  min-height:100vh;
+
+  overflow-x:clip;
+
+  background:var(--bg);
+
+  color:var(--text);
+
+  font:17px/1.6 var(--font);
+
+  -webkit-font-smoothing:antialiased;
+
+  text-rendering:optimizeLegibility;
+
+  scrollbar-color:#3a3a3c transparent;
+
+}
+
+::selection{background:var(--blue);color:#fff}
+
+/* Progress baca di tepi atas layar */
+
+body::before{
+
+  content:"";
+
+  position:fixed;inset:0 0 auto 0;
+
+  height:2px;z-index:100;
+
+  background:var(--blue-hi);
+
+  box-shadow:0 0 12px var(--blue-hi);
+
+  transform:scaleX(var(--sp,0));
+
+  transform-origin:0 50%;
+
+  pointer-events:none;
+
+}
+
+/* ---------- Ambient background: Apple-like, slow, soft, continuous ---------- */
+body::after{
+  content:"";
+  position:fixed;
+  inset:-24%;
+  z-index:0;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse 30% 25% at 12% 18%,rgba(10,132,255,.15),transparent 72%),
+    radial-gradient(ellipse 26% 23% at 86% 22%,rgba(112,92,255,.105),transparent 72%),
+    radial-gradient(ellipse 28% 24% at 76% 82%,rgba(48,209,88,.055),transparent 74%),
+    radial-gradient(ellipse 23% 20% at 22% 84%,rgba(255,55,95,.035),transparent 74%),
+    radial-gradient(circle at 50% 45%,rgba(255,255,255,.02),transparent 34rem);
+  filter:blur(58px) saturate(115%);
+  opacity:.74;
+  transform:translate3d(0,0,0) scale(1.03);
+  will-change:transform,opacity;
+  animation:ambientDrift 26s cubic-bezier(.45,0,.55,1) infinite alternate;
+}
+
+.gerbang,nav,main,.kaki{position:relative;z-index:1}
+
+@keyframes ambientDrift{
+  0%{transform:translate3d(-1.8%,-1.4%,0) scale(1.03);opacity:.62}
+  50%{transform:translate3d(1.5%,1.2%,0) scale(1.07);opacity:.78}
+  100%{transform:translate3d(-.8%,2%,0) scale(1.05);opacity:.68}
+}
+
+.dekor{display:none !important}
+
+a:focus-visible,summary:focus-visible,.hl:focus-visible{
+
+  outline:2px solid var(--blue-hi);
+
+  outline-offset:3px;
+
+}
+
+/* ---------- Hero: besar, mengecil + blur saat scroll ---------- */
+
+.gerbang{
+
+  position:sticky;top:0;z-index:0;
+
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+
+  height:90svh;min-height:32rem;
+
+  padding:0 1.5rem 4rem;
+
+  text-align:center;
+
+  transform-origin:50% 35%;
+
+  transform:translateY(calc(var(--p,0) * -7vh)) scale(calc(1 - var(--p,0) * .24));
+
+  opacity:calc(1 - var(--p,0) * 1.2);
+
+  filter:blur(calc(var(--p,0) * 20px));
+
+  will-change:transform,opacity,filter;
+
+}
+
+.gerbang h1{
+
+  margin:0;
+
+  color:var(--ink);
+
+  font-size:clamp(3rem,9.5vw,7.5rem);
+
+  font-weight:700;
+
+  line-height:1;
+
+  letter-spacing:-.055em;
+
+  text-wrap:balance;
+
+  animation:heroIn 1.2s var(--spring) backwards;
+
+}
+
+.gerbang p{
+
+  max-width:40rem;
+
+  margin:1.6rem 0 0;
+
+  color:var(--mute);
+
+  font-size:clamp(1.05rem,2vw,1.35rem);
+
+  line-height:1.5;
+
+  letter-spacing:-.01em;
+
+  animation:heroIn 1.2s .15s var(--spring) backwards;
+
+}
+
+.gerbang hr{display:none}
+
+@keyframes heroIn{
+
+  from{opacity:0;transform:translateY(40px) scale(.94);filter:blur(14px)}
+
+}
+
+/* ---------- Navigasi ---------- */
+
+nav{
+
+  position:sticky;top:0;z-index:50;
+
+  display:flex;gap:.4rem;
+
+  overflow-x:auto;
+
+  padding:.7rem max(.9rem,calc((100vw - 1280px) / 2 + 1.5rem));
+
+  background:rgba(0,0,0,.82);
+
+  border-bottom:1px solid var(--line);
+
+  -webkit-backdrop-filter:saturate(180%) blur(22px);
+
+  backdrop-filter:saturate(180%) blur(22px);
+
+  scrollbar-width:none;
+
+  view-transition-name:nav;
+
+}
+
+nav::-webkit-scrollbar{display:none}
+
+nav a{
+
+  flex:0 0 auto;
+
+  padding:.5rem .95rem;
+
+  border-radius:999px;
+
+  color:var(--mute);
+
+  text-decoration:none;
+
+  font-size:.78rem;
+
+  line-height:1.25;
+
+  text-align:center;
+
+  transition:transform .6s var(--spring),background-color .3s,color .3s,box-shadow .4s;
+
+}
+
+nav a b{
+
+  display:block;
+
+  color:var(--ink);
+
+  font-size:.92rem;
+
+  font-weight:600;
+
+  transition:color .3s;
+
+}
+
+nav a:hover{transform:translateY(-1px) scale(1.035);background:var(--card-2)}
+
+nav a:active{transform:scale(.96);transition-duration:.12s}
+
+/* Bab aktif (diatur JS lewat aria-current) — pill ikut "terbang" saat pindah bab */
+
+nav a[aria-current]{
+
+  background:var(--blue);
+
+  color:#dbeeff;
+
+  box-shadow:0 0 26px rgba(10,132,255,.5);
+
+  view-transition-name:pill;
+
+}
+
+nav a[aria-current] b{color:#fff}
+
+/* ---------- Transisi antar-bab (View Transitions) ---------- */
+
+::view-transition-old(root),
+
+::view-transition-new(root){mix-blend-mode:normal}
+
+::view-transition-old(root){animation:vtOut .38s cubic-bezier(.5,0,.75,0) both}
+
+::view-transition-new(root){animation:vtIn .9s var(--ease) both}
+
+::view-transition-group(pill){animation-duration:.65s;animation-timing-function:var(--spring)}
+
+@keyframes vtOut{
+
+  to{opacity:0;transform:translateX(calc(var(--d,1) * -3%)) scale(.988);filter:blur(18px)}
+
+}
+
+@keyframes vtIn{
+
+  from{opacity:0;transform:translateX(calc(var(--d,1) * 3%)) scale(1.012);filter:blur(18px)}
+
+}
+
+/* ---------- Main & bab ---------- */
+
+main{
+
+  position:relative;z-index:2;
+
+  max-width:1280px;
+
+  margin:0 auto;
+
+  padding:clamp(1.5rem,4vw,3rem) 1.5rem 7rem;
+
+  background:transparent;
+
+}
+
+.bacaan{display:none;scroll-margin-top:5.75rem}
+
+.bacaan:target,
+
+main:not(:has(.bacaan:target)) .bacaan:first-of-type{display:block}
+
+/* ---------- Layout split sticky: bacaan kiri, soal kanan ---------- */
+
+.aula{
+
+  display:grid;
+
+  grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);
+
+  column-gap:clamp(1.25rem,3vw,3rem);
+
+  align-items:start;
+
+}
+
+.gulungan,
+
+.soal{
+
+  background:var(--card);
+
+  border:1px solid var(--line);
+
+  border-radius:28px;
+
+  padding:clamp(1.4rem,3vw,2.4rem);
+
+}
+
+.gulungan{
+
+  grid-column:1;
+
+  grid-row:1 / span 40;
+
+  position:sticky;
+
+  top:5.75rem;
+
+  max-height:calc(100svh - 7rem);
+
+  overflow-y:auto;
+
+  overscroll-behavior:contain;
+
+  scrollbar-width:thin;
+
+  scrollbar-color:#3a3a3c transparent;
+
+  animation:rise 1s var(--spring) backwards;
+
+}
+
+.soal{
+
+  grid-column:2;
+
+  position:relative;
+
+  margin-bottom:1.25rem;
+
+  transition:transform .7s var(--spring),border-color .3s,box-shadow .45s;
+
+}
+
+.soal:hover{
+
+  transform:translateY(-3px);
+
+  border-color:rgba(10,132,255,.5);
+
+  box-shadow:0 0 0 1px rgba(10,132,255,.2),0 28px 70px rgba(0,0,0,.8);
+
+}
+
+/* Kartu soal muncul membal saat masuk layar (kelas .in diatur JS) */
+
+.js .soal:not(.in){opacity:0}
+
+.soal.in{animation:rise .85s var(--spring) backwards;animation-delay:calc(var(--i,0) * 90ms)}
+
+@keyframes rise{
+
+  from{opacity:0;transform:translateY(42px) scale(.965)}
+
+}
+
+/* ---------- Teks ---------- */
+
+.gulungan h2{
+
+  margin:0 0 1.2rem;
+
+  color:var(--ink);
+
+  font-size:clamp(1.8rem,3.4vw,2.6rem);
+
+  line-height:1.08;
+
+  font-weight:700;
+
+  letter-spacing:-.04em;
+
+  text-wrap:balance;
+
+}
+
+.gulungan p{
+
+  margin:0 0 1.25rem;
+
+  color:var(--text);
+
+  font-size:1.06rem;
+
+  line-height:1.85;
+
+  letter-spacing:-.005em;
+
+}
+
+.gulungan p:last-child{margin-bottom:0}
+
+.soal h3{
+
+  margin:0 0 .7rem;
+
+  color:var(--ink);
+
+  font-size:1.2rem;
+
+  font-weight:600;
+
+  letter-spacing:-.02em;
+
+}
+
+.soal .tanya{
+
+  margin:0 0 1rem;
+
+  color:var(--ink);
+
+  font-weight:500;
+
+  line-height:1.52;
+
+}
+
+.petunjuk{margin:-.35rem 0 1rem;color:var(--mute);font-size:.9rem}
+
+/* ---------- Highlight teks: biru menyala ---------- */
+
+.hl{
+
+  --hl:rgba(10,132,255,.3);
+
+  position:relative;
+
+  cursor:help;
+
+  padding:.05em .18em;
+
+  margin:0 -.1em;
+
+  border-radius:.4em;
+
+  color:var(--blue-soft);
+
+  font-weight:600;
+
+  background:linear-gradient(var(--hl),var(--hl)) 0 100% / 100% 100% no-repeat;
+
+  box-shadow:inset 0 -2px 0 var(--blue-hi),0 0 18px rgba(41,151,255,.3);
+
+  text-shadow:0 0 14px rgba(41,151,255,.65);
+
+  box-decoration-break:clone;
+
+  -webkit-box-decoration-break:clone;
+
+  transition:background-color .3s,color .3s,box-shadow .4s,text-shadow .4s;
+
+  animation:hlDraw 1s .55s var(--ease) backwards;
+
+}
+
+.hl:hover,
+
+.hl:focus{
+
+  --hl:var(--blue);
+
+  color:#fff;
+
+  outline:none;
+
+  text-shadow:none;
+
+  box-shadow:inset 0 -2px 0 #64d2ff,0 0 0 1px rgba(100,210,255,.5),0 0 34px rgba(10,132,255,.7);
+
+}
+
+.hl .tip{display:none}
+
+/* Garis highlight "tergambar" dari kiri ke kanan saat bab dibuka */
+
+@keyframes hlDraw{
+
+  from{background-size:0% 100%;box-shadow:inset 0 -2px 0 transparent,0 0 0 transparent;text-shadow:none}
+
+}
+
+/* ---------- Popup highlight (satu elemen mengambang, diatur JS) ---------- */
+
+.tip-float{
+
+  position:fixed;left:0;top:0;z-index:2000;
+
+  width:max-content;
+
+  max-width:min(330px,calc(100vw - 20px));
+
+  padding:.85rem 1.05rem;
+
+  border-radius:18px;
+
+  background:rgba(28,28,30,.94);
+
+  border:1px solid rgba(255,255,255,.14);
+
+  color:var(--ink);
+
+  font-size:.9rem;
+
+  line-height:1.5;
+
+  box-shadow:0 0 0 1px rgba(10,132,255,.25),0 24px 70px rgba(0,0,0,.75);
+
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
+
+  backdrop-filter:blur(24px) saturate(180%);
+
+  pointer-events:none;
+
+  opacity:0;visibility:hidden;
+
+  transform:scale(.94) translateY(4px);
+
+  transform-origin:var(--ax,50%) 100%;
+
+  transition:opacity .2s,visibility .2s,transform .55s var(--spring),translate .35s var(--ease);
+
+}
+
+.tip-float[data-side="b"]{transform-origin:var(--ax,50%) 0}
+
+.tip-float.on{opacity:1;visibility:visible;transform:none}
+
+.tip-float b{display:block;margin-bottom:.2rem;color:var(--blue-hi);font-weight:600}
+
+.tip-float::after{
+
+  content:"";
+
+  position:absolute;left:var(--ax,50%);bottom:-6px;
+
+  width:11px;height:11px;margin-left:-6px;
+
+  background:#1c1c1e;
+
+  border:solid rgba(255,255,255,.14);border-width:0 1px 1px 0;
+
+  transform:rotate(45deg);
+
+}
+
+.tip-float[data-side="b"]::after{top:-6px;bottom:auto;transform:rotate(225deg)}
+
+/* ---------- Opsi jawaban ---------- */
+
+.opsi{list-style:none;margin:0 0 1.25rem;padding:0;counter-reset:o}
+
+.opsi li{
+
+  counter-increment:o;
+
+  display:flex;align-items:flex-start;gap:.85rem;
+
+  margin-bottom:.55rem;
+
+  padding:.8rem .95rem;
+
+  border:1px solid var(--line);
+
+  border-radius:16px;
+
+  background:var(--card-2);
+
+  color:var(--text);
+
+  transition:transform .65s var(--spring),background-color .3s,border-color .3s,opacity .4s;
+
+}
+
+.opsi li:hover{
+
+  transform:translateX(6px) scale(1.015);
+
+  background:var(--card-3);
+
+  border-color:rgba(10,132,255,.5);
+
+}
+
+.opsi li:active{transform:scale(.97);transition-duration:.12s}
+
+.opsi li::before{
+
+  content:counter(o,upper-alpha);
+
+  flex:0 0 1.75rem;
+
+  width:1.75rem;height:1.75rem;
+
+  display:grid;place-items:center;
+
+  margin-top:.05rem;
+
+  border-radius:50%;
+
+  background:var(--card-3);
+
+  color:var(--mute);
+
+  font-size:.78rem;font-weight:600;
+
+  transition:transform .75s var(--spring),background-color .3s,color .3s;
+
+}
+
+.opsi li:hover::before{background:var(--blue);color:#fff;transform:scale(1.14)}
+
+.opsi.multi li::before{border-radius:7px}
+
+/* Setelah jawaban dibuka */
+
+.soal:has(details[open]) li:not(.benar){opacity:.32;transform:scale(.985)}
+
+.soal:has(details[open]) li.benar{
+
+  background:var(--green-bg);
+
+  border-color:var(--green);
+
+  color:var(--ink);
+
+  animation:pop .8s var(--spring);
+
+}
+
+.soal:has(details[open]) li.benar::before{
+
+  content:"✓";
+
+  background:var(--green);
+
+  color:#000;
+
+  animation:tick .85s .1s var(--spring) backwards;
+
+}
+
+@keyframes pop{from{transform:scale(.93)}to{transform:scale(1)}}
+
+@keyframes tick{from{transform:scale(0) rotate(-120deg)}}
+
+/* ---------- Tombol jawaban ---------- */
+
+details.kunci{margin-top:.15rem}
+
+details.kunci summary{
+
+  display:inline-flex;align-items:center;justify-content:center;
+
+  min-height:46px;
+
+  padding:.6rem 1.4rem;
+
+  border-radius:999px;
+
+  background:var(--blue);
+
+  color:#fff;
+
+  font-size:.95rem;font-weight:600;
+
+  list-style:none;
+
+  cursor:pointer;
+
+  user-select:none;
+
+  box-shadow:0 0 0 rgba(10,132,255,0);
+
+  transition:transform .65s var(--spring),background-color .3s,box-shadow .4s;
+
+}
+
+details.kunci summary::-webkit-details-marker{display:none}
+
+details.kunci summary:hover{transform:scale(1.07);box-shadow:0 8px 34px rgba(10,132,255,.55)}
+
+details.kunci summary:active{transform:scale(.96);transition-duration:.12s}
+
+details.kunci[open] summary{background:var(--card-3);box-shadow:none}
+
+/* ---------- Kotak jawaban ---------- */
+
+.jawab{
+
+  margin-top:1rem;
+
+  padding:1.05rem 1.25rem;
+
+  border:1px solid var(--line);
+
+  border-radius:18px;
+
+  background:var(--card-2);
+
+  transform-origin:50% 0;
+
+  animation:answerIn .7s var(--spring) backwards;
+
+}
+
+@keyframes answerIn{
+
+  from{opacity:0;transform:translateY(-14px) scale(.94)}
+
+}
+
+.jawab strong{display:block;margin-bottom:.3rem;color:var(--green);font-size:1.05rem;font-weight:600}
+
+.jawab p{margin:.5rem 0 0}
+
+/* ---------- Footer ---------- */
+
+.kaki{
+
+  max-width:900px;
+
+  margin:0 auto;
+
+  padding:0 1.5rem 4rem;
+
+  text-align:center;
+
+  color:var(--mute);
+
+  font-size:.85rem;
+
+}
+
+/* ---------- Responsif ---------- */
+
+@media (max-width:900px){
+
+  body{font-size:16px}
+
+  .gerbang{height:78svh;padding-bottom:3rem}
+
+  nav{padding:.65rem .8rem}
+
+  main{padding:1rem .8rem 5rem}
+
+  .aula{grid-template-columns:1fr}
+
+  .gulungan{
+
+    grid-column:1;grid-row:auto;
+
+    position:relative;top:auto;
+
+    max-height:none;overflow:visible;
+
+    margin-bottom:1.25rem;
+
+  }
+
+  .soal{grid-column:1}
+
+  .gulungan,.soal{padding:1.3rem;border-radius:22px}
+
+  .soal:hover,.opsi li:hover{transform:none}
+
+}
+
+@media (max-width:600px){
+
+  nav a{padding:.5rem .78rem;font-size:.73rem}
+
+  nav a b{font-size:.86rem}
+
+  .gulungan p{line-height:1.7}
+
+}
+
+/* ---------- Kurangi gerakan ---------- */
+
+@media (prefers-reduced-motion:reduce){
+
+  *,*::before,*::after{animation:none !important;transition:none !important}
+
+  html{scroll-behavior:auto}
+
+  .js .soal:not(.in){opacity:1}
+
+  .gerbang{transform:none;filter:none;opacity:1}
+  body::after{animation:none !important;opacity:.5}
+
+  ::view-transition-group(*),
+
+  ::view-transition-old(*),
+
+  ::view-transition-new(*){animation:none !important}
+
+}
